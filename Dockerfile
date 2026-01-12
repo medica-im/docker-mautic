@@ -22,7 +22,10 @@ RUN apt-get update \
     nodejs \
     npm \
     unzip \
-    libz-dev # PHP GD dependency
+    libz-dev \ # PHP GD dependencies
+    libpng-dev \
+    libfreetype6-dev \
+    libjpeg-dev
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 # RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
