@@ -29,7 +29,7 @@ RUN apt-get update \
     libjpeg-dev
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-# RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
+RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
 RUN docker-php-ext-configure opcache --enable-opcache
 RUN install-php-extensions intl mbstring mysqli curl pdo_mysql zip bcmath sockets exif amqp gd imap opcache
 RUN docker-php-ext-enable intl mbstring mysqli curl pdo_mysql zip bcmath sockets exif amqp gd imap opcache
