@@ -7,13 +7,13 @@ FROM php:${BASE_TAG} AS builder
 COPY ./common/ /common/
 
 # PHP extensions install script
-ARG PHP_INSTALLER_VERSION=2.9.28
-ARG PHP_INSTALLER_SHA256=2f5970453effac47cfcceafd6103948d78b566c2fb922a8ff639fe249db74aa7
+ARG IPE_VERSION=2.9.28
+ARG IPE_SHA256=2f5970453effac47cfcceafd6103948d78b566c2fb922a8ff639fe249db74aa7
 
 RUN curl -fsSL \
-    https://github.com/mlocati/docker-php-extension-installer/releases/download/${PHP_INSTALLER_VERSION}/install-php-extensions \
+    https://github.com/mlocati/docker-php-extension-installer/releases/download/${IPE_VERSION}/install-php-extensions \
     -o /usr/local/bin/install-php-extensions \
- && echo "${PHP_INSTALLER_SHA256}  /usr/local/bin/install-php-extensions" | sha256sum -c - \
+ && echo "${IPE_SHA256}  /usr/local/bin/install-php-extensions" | sha256sum -c - \
  && chmod +x /usr/local/bin/install-php-extensions
 
 
