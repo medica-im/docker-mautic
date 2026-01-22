@@ -11,7 +11,7 @@ ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/relea
 
 # Install dependencies
 # GD Dependencies: libz-dev, libpng-dev, libfreetype6-dev, libjpeg-dev
-# IMAP Dependencues: libkrb5-dev, libc-client-dev
+# IMAP Dependencies: libkrb5-dev, libc-client-dev
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install --no-install-recommends -y \
