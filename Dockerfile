@@ -18,8 +18,6 @@ RUN curl -fsSL \
 
 
 # Install dependencies
-# GD Dependencies: libz-dev, libpng-dev, libfreetype6-dev, libjpeg-dev
-# IMAP Dependencies: libkrb5-dev, libc-client-dev
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install --no-install-recommends -y \
@@ -32,15 +30,6 @@ RUN apt-get update \
     nodejs \
     npm \
     unzip \
-    libz-dev \
-    libpng-dev \
-    libfreetype6-dev \
-    libjpeg-dev \
-    libkrb5-dev \
-    libc-client-dev && \
-    docker-php-ext-configure gd --with-freetype --with-jpeg && \
-    docker-php-ext-configure imap --with-kerberos --with-imap-ssl && \
-    docker-php-ext-configure opcache --enable-opcache && \
     install-php-extensions intl mbstring mysqli curl pdo_mysql zip bcmath sockets exif amqp gd imap opcache
 
 # Install composer
