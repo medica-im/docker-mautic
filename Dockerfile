@@ -14,8 +14,6 @@ RUN apt-get update \
     ca-certificates \
     curl \
     git \
-    graphicsmagick \
-    imagemagick \
     nodejs \
     npm \
     unzip
