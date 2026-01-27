@@ -6,7 +6,7 @@ FROM php:${BASE_TAG} AS builder
 # Copy everything from common for building
 COPY ./common/ /common/
 
-# Install PHP extensions
+# Install dependencies
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install --no-install-recommends -y \
@@ -14,44 +14,21 @@ RUN apt-get update \
     ca-certificates \
     curl \
     git \
-    graphicsmagick \
-    imagemagick \
-    libaprutil1-dev \
-    libc-client-dev \
-    libcurl4-gnutls-dev \
-    libfreetype6-dev \
-    libgif-dev \
-    libicu-dev \
-    libjpeg-dev \
-    libjpeg62-turbo-dev \
-    libkrb5-dev \
-    libmagickwand-dev \
-    libmcrypt-dev \
-    libonig-dev \
-    libpng-dev \
-    libpq-dev \
-    librabbitmq-dev \
-    libssl-dev \
-    libtiff-dev \
-    libwebp-dev \
-    libxml2-dev \
-    libxpm-dev \
-    libz-dev \
-    libzip-dev \
     nodejs \
     npm \
     unzip
 
-RUN curl -L -o /tmp/amqp.tar.gz "https://github.com/php-amqp/php-amqp/archive/refs/tags/v2.1.2.tar.gz" \
-    && mkdir -p /usr/src/php/ext/amqp \
-    && tar -C /usr/src/php/ext/amqp -zxvf /tmp/amqp.tar.gz --strip 1 \
-    && rm /tmp/amqp.tar.gz
+# PHP extensions install script
+ARG IPE_VERSION=2.9.28
+ARG IPE_SHA256=2f5970453effac47cfcceafd6103948d78b566c2fb922a8ff639fe249db74aa7
 
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
-    && docker-php-ext-configure opcache --enable-opcache \
-    && docker-php-ext-install intl mbstring mysqli curl pdo_mysql zip bcmath sockets exif amqp gd imap opcache \
-    && docker-php-ext-enable intl mbstring mysqli curl pdo_mysql zip bcmath sockets exif amqp gd imap opcache
+RUN curl -fsSL \
+    https://github.com/mlocati/docker-php-extension-installer/releases/download/${IPE_VERSION}/install-php-extensions \
+    -o /usr/local/bin/install-php-extensions && \
+    echo "${IPE_SHA256}  /usr/local/bin/install-php-extensions" | sha256sum -c - && \
+    chmod +x /usr/local/bin/install-php-extensions
+
+RUN install-php-extensions intl mbstring mysqli curl pdo_mysql zip bcmath sockets exif amqp gd imap opcache
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
@@ -59,7 +36,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 RUN echo "memory_limit = -1" > /usr/local/etc/php/php.ini
 
 # Define Mautic version by package tag
-ARG MAUTIC_VERSION=6.x-dev
+ARG MAUTIC_VERSION=7.x-dev
 
 RUN cd /opt && \
     COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_PROCESS_TIMEOUT=10000 composer create-project mautic/recommended-project:${MAUTIC_VERSION} mautic --no-interaction && \
@@ -131,13 +108,13 @@ RUN apt-get update \
     && apt-get install --no-install-recommends -y \
     cron \
     git \
-    libc-client-dev \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libpng-dev \
     librabbitmq4 \
-    libwebp-dev \
-    libzip-dev \
+    libfreetype6 \
+    libjpeg62-turbo \
+    libpng16-16 \
+    libwebp7 \
+    libc-client2007e \
+    libzip4 \
     mariadb-client \
     supervisor \
     unzip \
