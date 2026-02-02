@@ -32,6 +32,7 @@ RUN apt-get update \
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN install-php-extensions intl mysqli pdo_mysql zip bcmath sockets exif gd imap
 RUN pie install php-amqp/php-amqp:dev-latest
+RUN pie install imap
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
