@@ -30,7 +30,7 @@ RUN apt-get update \
     libjpeg-dev
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN install-php-extensions intl mysqli pdo_mysql zip bcmath sockets exif gd imap
+RUN install-php-extensions intl mysqli pdo_mysql zip bcmath sockets exif gd
 RUN pie install php-amqp/php-amqp:dev-latest
 RUN pie install imap
 
