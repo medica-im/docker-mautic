@@ -27,7 +27,8 @@ RUN apt-get update \
     libz-dev \
     libpng-dev \
     libfreetype6-dev \
-    libjpeg-dev
+    libjpeg-dev \
+    librabbitmq-dev
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN install-php-extensions intl mysqli pdo_mysql zip bcmath sockets exif gd
