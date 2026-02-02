@@ -9,6 +9,7 @@ COPY ./common/ /common/
 # PHP extensions install script
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
+COPY --from=ghcr.io/php/pie:bin /pie /usr/local/bin/pie
 # Install dependencies
 # GD Dependencies: libz-dev, libpng-dev, libfreetype6-dev, libjpeg-dev
 RUN apt-get update \
@@ -29,7 +30,8 @@ RUN apt-get update \
     libjpeg-dev
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN install-php-extensions intl mysqli pdo_mysql zip bcmath sockets exif amqp gd imap
+RUN install-php-extensions intl mysqli pdo_mysql zip bcmath sockets exif gd imap
+RUN pie install php-amqp/php-amqp:dev-latest
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
